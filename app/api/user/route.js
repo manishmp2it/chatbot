@@ -4,16 +4,22 @@ import { NextResponse } from "next/server";
 const prisma = new PrismaClient();
 
 export async function POST(request){
+    console.log("============================")
 
     const body = await request.json();
 
-    const {name,email,phoneNumber}=body;
+    const {name,email,phone,password,role,location}=body;
 
-    const user = prisma.user.create({
+
+
+    const user = await prisma.user.create({
         data:{
             email,
             name,
-            phoneNumber,
+            password,
+            role,
+            phone,
+            location
         }
     });
 

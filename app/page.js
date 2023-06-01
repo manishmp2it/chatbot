@@ -6,13 +6,24 @@ import MessageParser from './components/MessageParser';
 import ActionProvider from './components/ActionProvider';
 import config from './components/Config';
 import { BsChatDotsFill } from "react-icons/bs"
+import getCurrentUser from './actions/getCurrentUser';
+// import { useRouter } from 'next/navigation';
+import { redirect } from 'next/navigation';
+ 
 
-export default function Home() {
+export default async function Home() {
+
   const [isChatbotOpen, setIsChatbotOpen] = useState(false);
 
   const toggleChatbot = () => {
     setIsChatbotOpen(!isChatbotOpen)
   }
+
+  // const router = useRouter();
+
+  const currentUser = await getCurrentUser();
+
+  
 
   const validateInput = (props) => {
     let previou_question = '';
@@ -47,6 +58,10 @@ export default function Home() {
       return messages;
     }
   };
+
+  if(!currentUser){
+    redirect('/login');
+  }
 
   return (
     <div className="bg-gray-100 min-h-screen">

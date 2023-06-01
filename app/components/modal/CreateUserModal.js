@@ -1,5 +1,7 @@
 'use client';
+import axios from 'axios';
 import React, { useState } from 'react';
+import { toast } from 'react-hot-toast';
 
 const CreateUserModal = ({ isOpen, onClose }) => {
     const [name, setName] = useState('');
@@ -9,27 +11,33 @@ const CreateUserModal = ({ isOpen, onClose }) => {
     const [location, setLocation] = useState('');
     const [password, setPassword] = useState('');
 
-    const handleCreateUser = (e) => {
+    const handleCreateUser = async(e) => {
         e.preventDefault();
 
-        console.log('Creating user...');
-        console.log({
-            name,
-            email,
-            phone,
-            role,
-            location,
-            password,
-        });
-        // Reset form fields
-        setName('');
-        setEmail('');
-        setPhone('');
-        setRole('');
-        setLocation('');
-        setPassword('');
-        // Close the modal
+        // let formData = new FormData();
+
+        const data={name,email,phone,role,location,password}
+
+        // formData.append('name', name);
+        // formData.append('email', email);
+        // formData.append('phone', `${phone}`);
+        // formData.append('role', role);
+        // formData.append('location', location);
+        // formData.append('password', password);
+
+       await axios.post('/api/user',data)
+            .then(() => {
+                toast.success('Created Successfully!'); 
+            })
+            .catch((error) => {
+                toast.error(error);
+            })
+            .finally(() => {
+                // setIsLoading(false);
+            })
+
         onClose();
+        e.target.reset();
     };
 
     return (

@@ -1,7 +1,12 @@
+'use client'
 import Sidebar from './components/sidebar/Sidebar'
 import './globals.css'
 import { Inter } from 'next/font/google'
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import 'react-chatbot-kit/build/main.css';
+import toast, { Toaster } from 'react-hot-toast';
+import qs from 'query-string';
+
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -11,11 +16,16 @@ export const metadata = {
 }
 
 export default function RootLayout({ children }) {
+
+  const params = usePathname();
+
+
   return (
     <html lang="en">
       <body className={inter.className}>
         <div className="flex">
-          <Sidebar />
+          <Toaster />
+         {params==="/login" ? '': <Sidebar />}
           <div className="flex-grow ">
             {children}
           </div>
